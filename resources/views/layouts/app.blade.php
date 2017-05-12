@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
     <style>
@@ -25,70 +26,103 @@
     </style>
 </head>
 <body id="app-layout">
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
 
-                <!-- Collapsed Hamburger -->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+            <!-- Collapsed Hamburger -->
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#app-navbar-collapse">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-                <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    Laravel
-                </a>
-            </div>
-
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar -->
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Home</a></li>
-                </ul>
-
-                <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
-                    @if (Auth::guest())
-                        <li><a href="{{ url('/login') }}">Login</a></li>
-                        <li><a href="{{ url('/register') }}">Register</a></li>
-                    @else
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->name }} <span class="caret"></span>
-                            </a>
-
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
-                            </ul>
-                        </li>
-                    @endif
-                </ul>
-            </div>
+            <!-- Branding Image -->
+            <a class="navbar-brand" href="{{ url('/') }}">
+                Laravel
+            </a>
         </div>
-    </nav>
-    @if (Auth::guest())
-        @yield('content')
-    @else
-        <div class="container">
-            <div class="row">
-                <div class="col-md-2">
-                    <ul class="list-group">
-                        <a class="list-group-item" href="{{ url('/user/users') }}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 用户管理</a>
-                        <a class="list-group-item" href="{{ url('/user/credit') }}"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> 信用查询</a>
-                    </ul>
+
+        <div class="collapse navbar-collapse" id="app-navbar-collapse">
+            <!-- Left Side Of Navbar -->
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url('/home') }}">Home</a></li>
+            </ul>
+
+            <!-- Right Side Of Navbar -->
+            <ul class="nav navbar-nav navbar-right">
+                <!-- Authentication Links -->
+                @if (Auth::guest())
+                    <li><a href="{{ url('/login') }}">Login</a></li>
+                    <li><a href="{{ url('/register') }}">Register</a></li>
+                @else
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            {{ Auth::user()->name }} <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                @endif
+            </ul>
+        </div>
+    </div>
+</nav>
+@if (!Auth::check())
+    @yield('content')
+@else
+    <div class="row">
+        <div class="col-md-2 left-menu">
+            <div class="menu">
+                <div class="menu-item">
+                    <h4><a role="button" data-toggle="collapse" href="#collapseUser" aria-expanded="false"
+                           aria-controls="collapseUser">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 用户管理
+                        </a>
+                    </h4>
+                    <div class="collapse in" id="collapseUser">
+                        <a href="{{admin_url('users')}}">用户列表</a>
+                        <a href="">新增用户</a>
+                        <a href="">用户统计</a>
+                    </div>
                 </div>
-                @yield('content')
+                <div class="menu-item">
+                    <h4><a role="button" data-toggle="collapse" href="#collapseAmout" aria-expanded="false"
+                           aria-controls="collapseAmout">
+                            <span class="glyphicon glyphicon-euro" aria-hidden="true"></span> 资金管理
+                        </a>
+                    </h4>
+                    <div class="collapse in" id="collapseAmout">
+                        <a>充值记录</a>
+                        <a>提现记录</a>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <h4><a role="button" data-toggle="collapse" href="#collapseSystem" aria-expanded="false"
+                           aria-controls="collapseSystem">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 系统配置
+                        </a>
+                    </h4>
+                    <div class="collapse in" id="collapseSystem">
+                        <a>基础配置</a>
+                        <a>系统配置</a>
+                    </div>
+                </div>
             </div>
         </div>
-    @endif
+        <div class="col-md-10 main-right">
+            @yield('content')
+        </div>
+    </div>
+@endif
 
-    <!-- JavaScripts -->
-    <script src="https://lib.sinaapp.com/js/jquery/2.2.4/jquery-2.2.4.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+<!-- JavaScripts -->
+<script src="https://lib.sinaapp.com/js/jquery/2.2.4/jquery-2.2.4.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 </html>

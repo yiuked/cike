@@ -1,0 +1,44 @@
+.navbar-default {
+    margin-bottom: 0
+}
+
+.left-menu {
+    background: #666;
+    min-height: 1024px
+}
+
+.left-menu .menu {
+    padding: 10px;
+}
+.left-menu .menu .menu-item{
+    margin-bottom: 5px;
+}
+.left-menu .menu .menu-item h4 {
+    background: #333 none repeat scroll 0 0;
+    border-radius: 5px 5px 0 0;
+    margin: 0;
+    padding: 8px;
+}
+
+.left-menu .menu a {
+    color: #bbb;
+    text-decoration: none;
+}
+.left-menu .menu .collapse a,.left-menu .menu .collapsing a{
+    color: #999;
+}
+
+.left-menu .menu a:hover {
+    color: #eee
+}
+
+.left-menu .menu .collapse,.left-menu .menu .collapsing {
+    line-height: 30px;
+    padding-left: 20px;
+    background: #444;
+}
+
+.left-menu .menu a{
+    display: block
+}
+.main-right{padding: 10px}

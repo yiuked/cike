@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="col-md-10">
+    <div class="col-md-10 main-right">
         <div class="panel panel-default">
             <div class="panel-body">
                 <table class="table table-striped">
@@ -31,10 +31,10 @@
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{{ url('/user/users/update',  [$user->id]) }}">修改</a></li>
-                                        <li><a href="{{ url('/user/users/delete',  [$user->id]) }}">删除</a></li>
+                                        <li><a href="{{ admin_url('users/update',  [$user->id]) }}">修改</a></li>
+                                        <li><a href="{{ admin_url('users/delete',  [$user->id]) }}">删除</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="{{ url('/user/users/view',  [$user->id]) }}">查看</a></li>
+                                        <li><a href="{{ admin_url('users/profile',[$user->id]) }}">查看</a></li>
                                     </ul>
                                 </div>
                             </td>
