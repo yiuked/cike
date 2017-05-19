@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Http\Requests\Request;
-use App\User;
+use App\Model\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AccessPolicy
@@ -21,8 +21,8 @@ class AccessPolicy
     }
 
     /**
-     * 可以通过此方法对指定的用户以及路由进行授权,返回结果为真则表示权限通过，否则不通过.
-     * 在控制器中调用:Gate::denies('checkRouter', self::$router)
+     * 锟斤拷锟斤拷通锟斤拷锟剿凤拷锟斤拷锟斤拷指锟斤拷锟斤拷锟矫伙拷锟皆硷拷路锟缴斤拷锟斤拷锟斤拷权,锟斤拷锟截斤拷锟轿拷锟斤拷锟斤拷示权锟斤拷通锟斤拷锟斤拷锟斤拷锟斤拷通锟斤拷.
+     * 锟节匡拷锟斤拷锟斤拷锟叫碉拷锟斤拷:Gate::denies('checkRouter', self::$router)
      *
      * @param User $user
      * @param Request $request

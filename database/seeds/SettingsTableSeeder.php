@@ -68,7 +68,7 @@ class SettingsTableSeeder extends Seeder
         $setting = $this->findSetting('admin_description');
         if (!$setting->exists) {
             $setting->fill([
-                'display_name' => 'Admin Description',
+                'display_name' => 'Admin 描述',
                 'value'        => 'Welcome to Voyager. The Missing Admin for Laravel',
                 'details'      => '',
                 'type'         => 'text',
@@ -90,7 +90,7 @@ class SettingsTableSeeder extends Seeder
         $setting = $this->findSetting('admin_icon_image');
         if (!$setting->exists) {
             $setting->fill([
-                'display_name' => 'Admin Icon Image',
+                'display_name' => 'Admin 图标',
                 'value'        => '',
                 'details'      => '',
                 'type'         => 'image',
@@ -101,7 +101,7 @@ class SettingsTableSeeder extends Seeder
         $setting = $this->findSetting('google_analytics_client_id');
         if (!$setting->exists) {
             $setting->fill([
-                'display_name' => 'Google Analytics Client ID',
+                'display_name' => 'Google Analytics 客户端ID',
                 'value'        => '',
                 'details'      => '',
                 'type'         => 'text',
