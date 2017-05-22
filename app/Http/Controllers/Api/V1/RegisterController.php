@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Model\User;
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Laravel\Passport\ClientRepository;
 
 class RegisterController extends Controller
 {
@@ -79,7 +81,18 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        #TODO 此处返回用户TOken
-        return response()->json(['name' => 'Abigail', 'state' => 'CA']);
+        $client = (new ClientRepository())->createPasswordGrantClient($user->id, $user->name, 'http://localhost');
+        $http = new Client();
+        $response = $http->post('http://cike.app/oauth/token', [
+            'form_params' => [
+                'grant_type' => 'password',
+                'client_id' => $client->id,
+                'client_secret' => $client->secret,
+                'username' => $request->input('email'),
+                'password' => $request->input('password'),
+                'scope' => '*',
+            ],
+        ]);
+        return json_decode((string) $response->getBody(), true);
     }
 }
