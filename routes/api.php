@@ -13,7 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 Route::prefix('v1')->namespace('Api\V1')->group(function () {
-    Route::post('register', 'RegisterController@register');
+    Route::post('register', 'Auth\RegisterController@register');
+    Route::post('login', 'Auth\LoginController@login');
 //    Route::middleware('auth:api')->group(function () {
 //        Route::resource('comments', 'CommentsController', ['only' => 'destroy']);
 //        Route::resource('posts.comments', 'PostCommentsController', ['only' => 'store']);

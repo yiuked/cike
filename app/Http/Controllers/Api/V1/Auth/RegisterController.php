@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Model\User;
 use App\Http\Controllers\Controller;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Laravel\Passport\ClientRepository;
 
 class RegisterController extends Controller
 {
@@ -53,7 +50,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed',
         ]);
     }
 
@@ -73,14 +70,15 @@ class RegisterController extends Controller
     }
 
     /**
-     * The user has been registered.
+     * 用户注册成功后，会调用些函数，在此函数内返回信息，若此函数返回false则页面会进行跳转.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
+     * @param Request $request
+     * @param $user
      * @return mixed
      */
     protected function registered(Request $request, $user)
     {
+        // 注册成功返回token
         $client = (new ClientRepository())->createPasswordGrantClient($user->id, $user->name, 'http://localhost');
         $http = new Client();
         $response = $http->post('http://cike.app/oauth/token', [
