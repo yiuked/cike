@@ -59,10 +59,10 @@
                 <form action="{{ route('voyager.login') }}" method="POST">
                 {{ csrf_field() }}
                 <div class="group">      
-                  <input type="text" name="email" value="{{ old('email') }}" required>
+                  <input type="text" name="phone" value="{{ old('phone') }}" required>
                   <span class="highlight"></span>
                   <span class="bar"></span>
-                  <label><i class="glyphicon glyphicon-user"></i><span class="span-input"> 邮箱</span></label>
+                  <label><i class="glyphicon glyphicon-user"></i><span class="span-input"> 手机</span></label>
                 </div>
 
                 <div class="group">      

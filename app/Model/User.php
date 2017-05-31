@@ -31,4 +31,12 @@ class User extends Authenticatable
     public function isSuperAdmin() {
         return true;
     }
+
+    /**
+     * Passport在请求 oauth/token 路由时，
+     * @param $username
+     */
+    public function findForPassport($username) {
+        return $this->where('phone', $username)->first();
+    }
 }

@@ -21,18 +21,40 @@
  * @copyright 2010-2015 Yiuked
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-require __DIR__.'/../vendor/autoload.php';
-$http = new GuzzleHttp\Client;
+//require __DIR__.'/../vendor/autoload.php';
+//$http = new GuzzleHttp\Client;
+//
+//$response = $http->post('http://cike.app:8000/oauth/token', [
+//    'form_params' => [
+//        'grant_type' => 'password',
+//        'client_id' => '2',
+//        'client_secret' => 'CsAxHj14gnzifjBmKS1Y1R6N7SynJkCkDkOtEGJD',
+//        'username' => 'yiuked@vip.qq.com',
+//        'password' => 'as616766',
+//        'scope' => '*',
+//    ],
+//]);
+//
+//return json_decode((string) $response->getBody(), true);
 
-$response = $http->post('http://cike.app:8000/oauth/token', [
-    'form_params' => [
-        'grant_type' => 'password',
-        'client_id' => '2',
-        'client_secret' => 'CsAxHj14gnzifjBmKS1Y1R6N7SynJkCkDkOtEGJD',
-        'username' => 'yiuked@vip.qq.com',
-        'password' => 'as616766',
-        'scope' => '*',
-    ],
-]);
 
-return json_decode((string) $response->getBody(), true);
+trait HelloWorld {
+    public function sayHello() {
+        echo $this->username();
+    }
+
+    public function username() {
+        return 'email';
+    }
+}
+
+class TheWorldIsNotEnough {
+    use HelloWorld;
+
+    public function username() {
+        return 'phone';
+    }
+}
+
+$o = new TheWorldIsNotEnough();
+$o->sayHello();
