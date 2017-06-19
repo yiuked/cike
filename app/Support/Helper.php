@@ -16,3 +16,24 @@ if (!function_exists('admin_url')) {
         return url(config('custom.system.admin_prefix') . '/' . $alias, $parameters, $secure);
     }
 }
+
+
+if (!function_exists('ip_addr')) {
+    /**
+     * 获取客户端IP地址
+     * @return mixed|string
+     */
+    function ip_addr()
+    {
+        if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
+            $ip_address = $_SERVER["HTTP_CLIENT_IP"];
+        } else if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+            $ip_address = array_pop(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']));
+        } else if (!empty($_SERVER["REMOTE_ADDR"])) {
+            $ip_address = $_SERVER["REMOTE_ADDR"];
+        } else {
+            $ip_address = '';
+        }
+        return $ip_address;
+    }
+}

@@ -14,9 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/sms', function () {
-    //app('sms')->sendTemplateSMS('13688045082', [32145, 2], 49324);
-});
+Route::post('sms', ['as' => 'sms', 'uses' => 'Auth\RegisterController@registerCode']);
 Auth::routes();
 
 //Route::group(['prefix' => config('custom.system.admin_prefix'), 'middleware' => ['web', 'auth']], function () {

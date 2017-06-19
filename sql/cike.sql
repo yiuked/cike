@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-05-19 14:06:09
+Date: 2017-06-19 17:25:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -35,6 +35,44 @@ CREATE TABLE `ck_categories` (
 
 -- ----------------------------
 -- Records of ck_categories
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `ck_cms`
+-- ----------------------------
+DROP TABLE IF EXISTS `ck_cms`;
+CREATE TABLE `ck_cms` (
+  `id_cms` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `img` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_cms`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of ck_cms
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `ck_comments`
+-- ----------------------------
+DROP TABLE IF EXISTS `ck_comments`;
+CREATE TABLE `ck_comments` (
+  `id_comment` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `referece` int(11) NOT NULL,
+  `id_cms` int(11) NOT NULL,
+  `comment` varchar(512) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_comment`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of ck_comments
 -- ----------------------------
 
 -- ----------------------------
@@ -148,6 +186,23 @@ INSERT INTO `ck_data_types` VALUES ('3', 'users', 'users', '用户', '用户', '
 INSERT INTO `ck_data_types` VALUES ('4', 'categories', 'categories', '分类', '分类', 'voyager-categories', 'TCG\\Voyager\\Models\\Category', '', '', '1', '0', '2017-05-18 11:22:33', '2017-05-18 11:22:33');
 INSERT INTO `ck_data_types` VALUES ('5', 'menus', 'menus', '菜单', '菜单', 'voyager-list', 'TCG\\Voyager\\Models\\Menu', '', '', '1', '0', '2017-05-18 11:22:33', '2017-05-18 11:22:33');
 INSERT INTO `ck_data_types` VALUES ('6', 'roles', 'roles', '角色', '角色', 'voyager-lock', 'TCG\\Voyager\\Models\\Role', '', '', '1', '0', '2017-05-18 11:22:33', '2017-05-18 11:22:33');
+
+-- ----------------------------
+-- Table structure for `ck_likes`
+-- ----------------------------
+DROP TABLE IF EXISTS `ck_likes`;
+CREATE TABLE `ck_likes` (
+  `id_like` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
+  `level` tinyint(1) NOT NULL,
+  `id_cms` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_like`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of ck_likes
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `ck_menu_items`
@@ -584,6 +639,46 @@ INSERT INTO `ck_settings` VALUES ('1', 'admin_title', '网站标题', '此刻', 
 INSERT INTO `ck_settings` VALUES ('2', 'admin_description', '网站描述', '从你的全世界路过', null, 'text', '1');
 
 -- ----------------------------
+-- Table structure for `ck_sms`
+-- ----------------------------
+DROP TABLE IF EXISTS `ck_sms`;
+CREATE TABLE `ck_sms` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `type` varchar(50) NOT NULL COMMENT '发送类型',
+  `phone` varchar(50) NOT NULL COMMENT '发送手机',
+  `contents` varchar(250) NOT NULL COMMENT '发送内容',
+  `code` varchar(50) NOT NULL COMMENT '验证码',
+  `code_status` int(2) NOT NULL DEFAULT '0' COMMENT '验证码状态',
+  `code_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL COMMENT '添加时间',
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `type` (`type`),
+  KEY `phone` (`phone`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ck_sms
+-- ----------------------------
+INSERT INTO `ck_sms` VALUES ('1', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:7894，请及时输入，工作人员不会向您索取，请勿泄露。', '7894', '0', null, '2017-06-12 09:00:56', '2017-06-12 09:00:56');
+INSERT INTO `ck_sms` VALUES ('2', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:4873，请及时输入，工作人员不会向您索取，请勿泄露。', '4873', '0', null, '2017-06-12 09:04:37', '2017-06-12 09:04:37');
+INSERT INTO `ck_sms` VALUES ('3', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:6488，请及时输入，工作人员不会向您索取，请勿泄露。', '6488', '0', null, '2017-06-12 09:04:45', '2017-06-12 09:04:45');
+INSERT INTO `ck_sms` VALUES ('4', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:3356，请及时输入，工作人员不会向您索取，请勿泄露。', '3356', '0', null, '2017-06-12 17:16:55', '2017-06-12 17:16:55');
+INSERT INTO `ck_sms` VALUES ('5', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:9262，请及时输入，工作人员不会向您索取，请勿泄露。', '9262', '0', null, '2017-06-12 17:18:13', '2017-06-12 17:18:13');
+INSERT INTO `ck_sms` VALUES ('6', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:9803，请及时输入，工作人员不会向您索取，请勿泄露。', '9803', '0', null, '2017-06-12 17:21:41', '2017-06-12 17:21:41');
+INSERT INTO `ck_sms` VALUES ('7', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:5441，请及时输入，工作人员不会向您索取，请勿泄露。', '5441', '0', null, '2017-06-12 17:23:04', '2017-06-12 17:23:04');
+INSERT INTO `ck_sms` VALUES ('8', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:7977，请及时输入，工作人员不会向您索取，请勿泄露。', '7977', '0', null, '2017-06-12 17:24:40', '2017-06-12 17:24:40');
+INSERT INTO `ck_sms` VALUES ('9', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:6099，请及时输入，工作人员不会向您索取，请勿泄露。', '6099', '0', null, '2017-06-13 08:54:04', '2017-06-13 08:54:04');
+INSERT INTO `ck_sms` VALUES ('10', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:9995，请及时输入，工作人员不会向您索取，请勿泄露。', '9995', '0', null, '2017-06-13 08:55:39', '2017-06-13 08:55:39');
+INSERT INTO `ck_sms` VALUES ('11', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:4746，请及时输入，工作人员不会向您索取，请勿泄露。', '4746', '0', null, '2017-06-13 08:56:42', '2017-06-13 08:56:42');
+INSERT INTO `ck_sms` VALUES ('12', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:6389，请及时输入，工作人员不会向您索取，请勿泄露。', '6389', '0', null, '2017-06-13 08:57:43', '2017-06-13 08:57:43');
+INSERT INTO `ck_sms` VALUES ('13', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:5463，请及时输入，工作人员不会向您索取，请勿泄露。', '5463', '0', null, '2017-06-13 08:59:45', '2017-06-13 08:59:45');
+INSERT INTO `ck_sms` VALUES ('14', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:7301，请及时输入，工作人员不会向您索取，请勿泄露。', '7301', '0', null, '2017-06-13 09:03:23', '2017-06-13 09:03:23');
+INSERT INTO `ck_sms` VALUES ('15', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:8423，请及时输入，工作人员不会向您索取，请勿泄露。', '8423', '0', null, '2017-06-15 14:18:32', '2017-06-15 14:18:32');
+
+-- ----------------------------
 -- Table structure for `ck_translations`
 -- ----------------------------
 DROP TABLE IF EXISTS `ck_translations`;
@@ -612,7 +707,8 @@ CREATE TABLE `ck_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `role_id` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -620,9 +716,22 @@ CREATE TABLE `ck_users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of ck_users
 -- ----------------------------
-INSERT INTO `ck_users` VALUES ('2', '1', 'yiuked', 'yiuked@vip.qq.com', 'users/May2017/jNX6yHBJvLSDPmztqj9k.jpg', '$2y$10$medyLF27EMY4G1wrLHNFdud696o9MAwUEDaaflMeIjeEnndxtuRUy', null, '2017-05-17 07:58:20', '2017-05-18 11:37:56');
+INSERT INTO `ck_users` VALUES ('2', '1', 'yiuked', '', 'yiuked@vip.qq.com', 'users/May2017/jNX6yHBJvLSDPmztqj9k.jpg', '$2y$10$medyLF27EMY4G1wrLHNFdud696o9MAwUEDaaflMeIjeEnndxtuRUy', null, '2017-05-17 07:58:20', '2017-05-18 11:37:56');
+INSERT INTO `ck_users` VALUES ('3', '2', 'yiuked', '', 'yiukeds@vip.qq.com', 'users/default.png', '$2y$10$1z8KdeeVTz9n9aqTqDLswOGhFAfEd7ujx7dREkOnC/Y6yU5k3J2ii', null, '2017-05-22 12:10:08', '2017-05-22 12:10:08');
+INSERT INTO `ck_users` VALUES ('4', '2', 'yiuked', '', 'yiukedF@vip.qq.com', 'users/default.png', '$2y$10$rQKh.vOP08o9wFDmL2ZtOeVHl7rbgJDjczes5UZOJegejc.cTelNK', null, '2017-05-22 12:10:45', '2017-05-22 12:10:45');
+INSERT INTO `ck_users` VALUES ('5', '2', 'yiuked', '', 'yiukedB@vip.qq.com', 'users/default.png', '$2y$10$NG6dY5yHjWdYs9VDkBee/eAFNeVhAJ0soqN/yWVeNxqet/on1tY8i', null, '2017-05-22 12:11:55', '2017-05-22 12:11:55');
+INSERT INTO `ck_users` VALUES ('6', '2', 'yiuked', '', 'yiukedC@vip.qq.com', 'users/default.png', '$2y$10$U3woaNVXm8OhgdPzjN1GlOtsNtWQTjbpUUmnmOyVzRY0FxJ1qCxMy', null, '2017-05-22 12:12:37', '2017-05-22 12:12:37');
+INSERT INTO `ck_users` VALUES ('7', '2', 'yiuked', '', 'yiukedD@vip.qq.com', 'users/default.png', '$2y$10$mplU5U3dUFReOqgUGJRXCuoIkPLLBRevTtRIghq7V0O3GSPxJU1l.', null, '2017-05-22 12:13:25', '2017-05-22 12:13:25');
+INSERT INTO `ck_users` VALUES ('8', '2', 'yiuked', '', 'yiukedE@vip.qq.com', 'users/default.png', '$2y$10$upBdhusRE.jFrmojG1s.QO6MKoDWS7rhMHoPKl.9XAnEGEiJAaW6u', null, '2017-05-22 12:23:01', '2017-05-22 12:23:01');
+INSERT INTO `ck_users` VALUES ('9', '2', 'yiuked', '', 'yiukedG@vip.qq.com', 'users/default.png', '$2y$10$Kfu4NI55mUmsjnTumofQkelWEQOPpU4IEyexSQcS2cBNj4jA6obVG', null, '2017-05-22 12:25:24', '2017-05-22 12:25:24');
+INSERT INTO `ck_users` VALUES ('10', '2', '13688045082', '13688045080', null, 'users/default.png', '$2y$10$Ch7oG5EfFFOwcqThZZsfZ.RyO2n/LuSMWdjmA1NZ7RnmHNM0iZiPO', null, '2017-06-12 17:53:14', '2017-06-12 17:53:14');
+INSERT INTO `ck_users` VALUES ('11', '2', '13688045082', '13688045082', null, 'users/default.png', '$2y$10$9kII9fqSk0GDSfpW9eha5.3PVPFgizMVSmupFbplUF74ydNGAX3gG', null, '2017-06-13 09:05:43', '2017-06-13 09:05:43');
+INSERT INTO `ck_users` VALUES ('12', '2', '13688045083', '13688045083', null, 'users/default.png', '$2y$10$DuWqkrvp4Cq4hIaywJsk1OsY9F3bcVsoU7LhwB9ghn4xkTYIL78pq', null, '2017-06-14 18:15:35', '2017-06-14 18:15:35');
+INSERT INTO `ck_users` VALUES ('13', '2', '13688045084', '13688045084', null, 'users/default.png', '$2y$10$beGiIevPHNaA8AnEAnFDF.esCKTgH8.E9SsD1Hx/K1eb7S0uZmmwy', null, '2017-06-14 18:17:47', '2017-06-14 18:17:47');
+INSERT INTO `ck_users` VALUES ('14', '2', '13688045085', '13688045085', null, 'users/default.png', '$2y$10$gSZIqXLFWjhzGSnHD0zv3.4ESHvvUHN/b3LZlfbbKfHIRY9dRM9a.', null, '2017-06-14 18:20:24', '2017-06-14 18:20:24');
+INSERT INTO `ck_users` VALUES ('15', '2', '13688045087', '13688045087', null, 'users/default.png', '$2y$10$L4EU7F7T11jg70meToBdjeex7fbOp6o9wAKVjlzPd0VD9UFtzzInq', null, '2017-06-14 18:21:12', '2017-06-14 18:21:12');

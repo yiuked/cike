@@ -124,5 +124,6 @@
 <script src="https://lib.sinaapp.com/js/jquery/2.2.4/jquery-2.2.4.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+@yield('javascript')
 </body>
 </html>

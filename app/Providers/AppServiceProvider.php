@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Validator::extend('phone', function($attribute, $value, $parameters, $validator) {
+            if (preg_match('/^1[34578]{1}\d{9}$/', $value)) {
+                return true;
+            }
+            return false;
+        });
     }
 
     /**
@@ -23,8 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('sms', function(){
-            return 'service1';
-        });
+
     }
 }
