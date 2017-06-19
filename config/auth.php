@@ -100,5 +100,7 @@ return [
             'expire' => 60,
         ],
     ],
-
+    'client' => [
+        'client_id' => 6
+    ]
 ];

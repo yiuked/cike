@@ -96,11 +96,11 @@ class LoginController extends Controller
         $tokenRepository->getValidToken($user);
         $client = (new ClientRepository())->createPasswordGrantClient($user->id, $user->name, 'http://localhost');
         $http = new Client();
-        $response = $http->post('http://cike.app/oauth/token', [
+        $response = $http->post(route('oauth/token'), [
             'form_params' => [
                 'grant_type' => 'password',
-                'client_id' => $client->id,
-                'client_secret' => $client->secret,
+                'client_id' => $request->input('client_id'),
+                'client_secret' => $request->input('client_secret'),
                 'username' => $request->input('email'),
                 'password' => $request->input('password'),
                 'scope' => '*',

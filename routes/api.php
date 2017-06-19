@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 Route::prefix('v1')->namespace('Api\V1')->group(function () {
+    Route::get('init', 'SystemController@init');
     Route::post('register', 'Auth\RegisterController@register');
     Route::post('/login',
         ['as'   => 'login',
