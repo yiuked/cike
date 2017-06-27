@@ -14,7 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::post('sms', ['as' => 'sms', 'uses' => 'Auth\RegisterController@registerCode']);
 Auth::routes();
 
 //Route::group(['prefix' => config('custom.system.admin_prefix'), 'middleware' => ['web', 'auth']], function () {

@@ -1,14 +1,13 @@
 <?php
-
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Model\User;
 use App\Model\Sms;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\UsersSms;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class RegisterController extends Controller
 {
@@ -23,7 +22,7 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use RegistersUsers,UsersSms;
 
     /**
      * Where to redirect users after registration.
@@ -91,7 +90,7 @@ class RegisterController extends Controller
                 'grant_type' => 'password',
                 'client_id' => $client->id,
                 'client_secret' => $client->secret,
-                'username' => $request->input('email'),
+                'username' => $request->input('phone'),
                 'password' => $request->input('password'),
                 'scope' => '*',
             ],

@@ -15,10 +15,12 @@ use Illuminate\Http\Request;
 Route::prefix('v1')->namespace('Api\V1')->group(function () {
     Route::get('init', 'SystemController@init');
     Route::post('register', 'Auth\RegisterController@register');
+    Route::post('sms', 'Auth\RegisterController@registerCode');
     Route::post('/login',
         ['as'   => 'login',
             'uses' => '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken',
         ]);
+    Route::get('comments', 'CommentsController@index');
 //    Route::middleware('auth:api')->group(function () {
 //        Route::resource('comments', 'CommentsController', ['only' => 'destroy']);
 //        Route::resource('posts.comments', 'PostCommentsController', ['only' => 'store']);
