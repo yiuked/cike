@@ -14,6 +14,9 @@ use Illuminate\Http\Request;
 */
 Route::prefix('v1')->namespace('Api\V1')->group(function () {
     Route::get('init', 'SystemController@init');
+    Route::get('test', function(){
+        return json_encode(['status' => 'SUCCESS', 'msg' => 'Hello world']);
+    })->middleware('auth:api');
     Route::post('register', 'Auth\RegisterController@register');
     Route::post('sms', 'Auth\RegisterController@registerCode');
     Route::post('/login',

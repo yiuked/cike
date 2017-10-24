@@ -1,4 +1,5 @@
 <?php
+phpinfo();exit();
 /**
  * 2017/5/16 Yiuked
  *

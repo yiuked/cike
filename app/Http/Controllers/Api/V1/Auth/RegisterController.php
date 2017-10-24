@@ -3,6 +3,8 @@ namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Model\User;
 use App\Model\Sms;
+use Illuminate\Http\Response;
+use Laravel\Passport\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\UsersSms;
 use Illuminate\Support\Facades\Validator;
@@ -54,7 +56,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'phone' => 'required|phone|size:11|unique:users',
             'password' => 'required|string|min:6',
-            'code' => 'required|in:' . $code
+            'code' => 'required|in:' . $code,
         ]);
     }
 
@@ -82,19 +84,6 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        // 注册成功返回token
-        $client = (new ClientRepository())->createPasswordGrantClient($user->id, $user->name, 'http://localhost');
-        $http = new Client();
-        $response = $http->post('http://cike.app/oauth/token', [
-            'form_params' => [
-                'grant_type' => 'password',
-                'client_id' => $client->id,
-                'client_secret' => $client->secret,
-                'username' => $request->input('phone'),
-                'password' => $request->input('password'),
-                'scope' => '*',
-            ],
-        ]);
-        return json_decode((string) $response->getBody(), true);
+        return response()->json(['status' => 'SUCCESS']);
     }
 }
