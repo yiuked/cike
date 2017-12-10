@@ -12,7 +12,7 @@ class GuestController extends Controller
     public function init($uid)
     {
         $validator = Validator::make(['uid' => $uid], [
-            'uid' => 'required|unique:guest_users|min:32|max:128',
+            'uid' => 'required|unique:guest_users|min:12|max:128',
         ]);
         if ($validator->fails()) {
             $errors = $validator->errors();
