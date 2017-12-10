@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 Route::prefix('v1')->namespace('Api\V1')->group(function () {
+    Route::get('guest/init/{uid}', 'GuestController@init');
+    Route::get('message/range', 'MessageController@range');
+    Route::get('message/history', 'MessageController@history');
+    Route::post('message/add', 'MessageController@add');
     Route::post('register', 'Auth\RegisterController@register');
     Route::post('/login',
         ['as'   => 'login',
