@@ -43,4 +43,6 @@ class Guest extends Model
         $lastname = $lastnames[array_rand($lastnames)];
         return $firstname . $lastname;
     }
+
+
 }
