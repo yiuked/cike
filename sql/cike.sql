@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-06-19 17:25:06
+Date: 2017-12-15 14:45:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -35,25 +35,6 @@ CREATE TABLE `ck_categories` (
 
 -- ----------------------------
 -- Records of ck_categories
--- ----------------------------
-
--- ----------------------------
--- Table structure for `ck_cms`
--- ----------------------------
-DROP TABLE IF EXISTS `ck_cms`;
-CREATE TABLE `ck_cms` (
-  `id_cms` int(11) NOT NULL AUTO_INCREMENT,
-  `id_user` int(11) NOT NULL,
-  `description` text COLLATE utf8_unicode_ci NOT NULL,
-  `img` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `status` tinyint(1) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_cms`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- ----------------------------
--- Records of ck_cms
 -- ----------------------------
 
 -- ----------------------------
@@ -188,6 +169,25 @@ INSERT INTO `ck_data_types` VALUES ('5', 'menus', 'menus', '菜单', '菜单', '
 INSERT INTO `ck_data_types` VALUES ('6', 'roles', 'roles', '角色', '角色', 'voyager-lock', 'TCG\\Voyager\\Models\\Role', '', '', '1', '0', '2017-05-18 11:22:33', '2017-05-18 11:22:33');
 
 -- ----------------------------
+-- Table structure for `ck_guest_users`
+-- ----------------------------
+DROP TABLE IF EXISTS `ck_guest_users`;
+CREATE TABLE `ck_guest_users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nickname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `guest_users_uid_unique` (`uid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of ck_guest_users
+-- ----------------------------
+INSERT INTO `ck_guest_users` VALUES ('1', 'AABBCCDDEEFFGG', '魁梧的小丸子', '2017-11-26 14:25:46', '2017-11-26 14:25:46');
+
+-- ----------------------------
 -- Table structure for `ck_likes`
 -- ----------------------------
 DROP TABLE IF EXISTS `ck_likes`;
@@ -261,6 +261,31 @@ CREATE TABLE `ck_menus` (
 INSERT INTO `ck_menus` VALUES ('1', 'admin', '2017-05-18 11:22:33', '2017-05-18 11:22:33');
 
 -- ----------------------------
+-- Table structure for `ck_messages`
+-- ----------------------------
+DROP TABLE IF EXISTS `ck_messages`;
+CREATE TABLE `ck_messages` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `guest_id` int(11) NOT NULL,
+  `unique_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `images` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `has_active` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `messages_unique_id_unique` (`unique_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of ck_messages
+-- ----------------------------
+INSERT INTO `ck_messages` VALUES ('1', '1', '987984756', '如果生活抛弃了你，不要悲伤，那是什么玩意呢！', '1', '1', '2017-11-26 15:50:27', '2017-11-26 15:50:30');
+INSERT INTO `ck_messages` VALUES ('2', '1', 'f9d64d6244fd392a4c909e631b4e770c', '测试一下测试一下测试一下测试一下', '1', '0', '2017-12-10 15:49:09', '2017-12-10 15:49:09');
+INSERT INTO `ck_messages` VALUES ('3', '1', 'd0935434bbd57e73e116054bc67875c4', '2017-12-13 19:48:05', '1', '0', '2017-12-13 19:48:06', '2017-12-13 19:48:06');
+INSERT INTO `ck_messages` VALUES ('4', '1', '060ca9bb70876ae6625b8fe56ca50ea6', '2017-12-13 19:55:47', '1', '0', '2017-12-13 19:55:50', '2017-12-13 19:55:50');
+
+-- ----------------------------
 -- Table structure for `ck_migrations`
 -- ----------------------------
 DROP TABLE IF EXISTS `ck_migrations`;
@@ -269,7 +294,7 @@ CREATE TABLE `ck_migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of ck_migrations
@@ -299,6 +324,28 @@ INSERT INTO `ck_migrations` VALUES ('33', '2017_01_15_000000_create_permission_g
 INSERT INTO `ck_migrations` VALUES ('34', '2017_01_15_000000_make_table_name_nullable_in_permissions_table', '2');
 INSERT INTO `ck_migrations` VALUES ('35', '2017_03_06_000000_add_controller_to_data_types_table', '2');
 INSERT INTO `ck_migrations` VALUES ('36', '2017_04_21_000000_add_order_to_data_rows_table', '2');
+INSERT INTO `ck_migrations` VALUES ('40', '2017_11_26_093951_create_guest_users_table', '3');
+INSERT INTO `ck_migrations` VALUES ('45', '2017_11_26_150038_create_messages_table', '4');
+
+-- ----------------------------
+-- Table structure for `ck_mobile`
+-- ----------------------------
+DROP TABLE IF EXISTS `ck_mobile`;
+CREATE TABLE `ck_mobile` (
+  `id_mobile` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
+  `os` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `os_version` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `kernel` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `uuid` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_mobile`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of ck_mobile
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `ck_oauth_access_tokens`
@@ -321,13 +368,17 @@ CREATE TABLE `ck_oauth_access_tokens` (
 -- ----------------------------
 -- Records of ck_oauth_access_tokens
 -- ----------------------------
-INSERT INTO `ck_oauth_access_tokens` VALUES ('553f1d938baa6d0a78b00cbc4c986936db094091d03c7227a0298c0b4f89495f8a08997fb2b75d86', '2', '4', null, '[]', '0', '2017-05-17 09:22:14', '2017-05-17 09:22:14', '2018-05-17 09:22:14');
-INSERT INTO `ck_oauth_access_tokens` VALUES ('93a38fbf51fb680cd4946dc56bd34846f0201f0b4efb4bfa47f301b3fb940730a3295cc0561ad7b0', '2', '4', null, '[]', '0', '2017-05-17 09:24:02', '2017-05-17 09:24:02', '2018-05-17 09:24:02');
-INSERT INTO `ck_oauth_access_tokens` VALUES ('aaf7a0723bf902f4faaf0d1e539ab861ffa9c11c62cadfea9ef28c8d54713183cba827c816aacd2b', '2', '4', null, '[]', '0', '2017-05-17 10:09:08', '2017-05-17 10:09:08', '2018-05-17 10:09:08');
-INSERT INTO `ck_oauth_access_tokens` VALUES ('c258c0efb874a7e9f95b75ab682a4aa73de440b53d320f9e7538bf939199149cdec604b4571a8af0', '2', '4', null, '[]', '0', '2017-05-17 09:37:54', '2017-05-17 09:37:54', '2018-05-17 09:37:54');
-INSERT INTO `ck_oauth_access_tokens` VALUES ('c990536f469240ba2b7c61eafb06ec366757b1f5205b423670bb52212a9601ccb7c19a142de8c5ac', '2', '6', null, '[]', '0', '2017-05-17 11:12:13', '2017-05-17 11:12:13', '2018-05-17 11:12:13');
-INSERT INTO `ck_oauth_access_tokens` VALUES ('dabc4a0913a782aa61b828ebdb44af41d9a9ca23a69cffe75d3f4e316ef6a7f6d9e6734ae91b6f46', '2', '6', null, '[]', '0', '2017-05-17 11:12:48', '2017-05-17 11:12:48', '2018-05-17 11:12:48');
-INSERT INTO `ck_oauth_access_tokens` VALUES ('f86640d3c129d6f4dee38b0846c70d7d282be64f508b685559fd03eb521c5643473df73c2dd570bc', '2', '4', null, '[]', '1', '2017-05-17 09:26:43', '2017-05-17 09:26:43', '2018-05-17 09:26:43');
+INSERT INTO `ck_oauth_access_tokens` VALUES ('1b9060c7b3ae8b5082f8b25cd825f9644bfca20194740068e7cb2a80ef891a7d77cf457f7120f721', '38', '6', null, '[\"*\"]', '0', '2017-06-29 16:49:39', '2017-06-29 16:49:39', '2018-06-29 16:49:39');
+INSERT INTO `ck_oauth_access_tokens` VALUES ('2c30232e2b041821f5c16b27b70c9fe2166b21a5d511069472bc22ec09eeacafd4dfb3a30c9ce3da', '38', '6', null, '[\"*\"]', '0', '2017-06-29 17:50:25', '2017-06-29 17:50:25', '2018-06-29 17:50:25');
+INSERT INTO `ck_oauth_access_tokens` VALUES ('3cefa0123cda06774052e8cc808f18d7c4125a7e47c3ec789fd22e70f7a2c8f2541142371758f704', '39', '6', null, '[\"*\"]', '0', '2017-07-04 19:00:00', '2017-07-04 19:00:00', '2018-07-04 19:00:00');
+INSERT INTO `ck_oauth_access_tokens` VALUES ('5b8b7cd10bbcabc39bf8570e641967840cf51279323d630ef70a9e59135b8c9b06c2970fbc87c0c6', '38', '6', null, '[]', '0', '2017-07-05 18:44:19', '2017-07-05 18:44:19', '2018-07-05 18:44:19');
+INSERT INTO `ck_oauth_access_tokens` VALUES ('8e75da811d83f7310efc002fe828b300c995bf86a50368f14578ce6b80649131d09cedf72b854561', '39', '6', null, '[\"*\"]', '0', '2017-06-29 17:29:02', '2017-06-29 17:29:02', '2018-06-29 17:29:02');
+INSERT INTO `ck_oauth_access_tokens` VALUES ('b13a59ec692eae1d31c52460334a54ff1a659a6644f4c140691d81718ea9b3ecb0aef0a3c766f0c2', '39', '6', null, '[\"*\"]', '0', '2017-06-29 17:26:46', '2017-06-29 17:26:46', '2018-06-29 17:26:46');
+INSERT INTO `ck_oauth_access_tokens` VALUES ('b67fffe39eb81d2ec7a376db0d2abcb94c5b57b0d5655dba87d1eca4f79430dc9065675ed16fca3c', '39', '6', null, '[\"*\"]', '0', '2017-06-29 17:28:01', '2017-06-29 17:28:01', '2018-06-29 17:28:01');
+INSERT INTO `ck_oauth_access_tokens` VALUES ('c6d74bccd10e47bdbe92286832ecf2e142c20ab2f2b2ce4590e3285946de449a8a012bc58bb57ca8', '39', '6', null, '[\"*\"]', '0', '2017-07-04 19:04:49', '2017-07-04 19:04:49', '2018-07-04 19:04:49');
+INSERT INTO `ck_oauth_access_tokens` VALUES ('d79bc294049abfed25f9680744ce2924c8de21e1ccb4a0900e5558ce5309cdd48f0c00e4b3ddb80a', '39', '6', null, '[\"*\"]', '0', '2017-07-05 18:59:23', '2017-07-05 18:59:23', '2018-07-05 18:59:23');
+INSERT INTO `ck_oauth_access_tokens` VALUES ('dcc30bb6f1410ab850a458e141e432dfacaada87ab216e6cb95d791a44d6617998af2069b41e6ae2', '38', '6', null, '[\"*\"]', '0', '2017-06-29 17:48:47', '2017-06-29 17:48:47', '2018-06-29 17:48:47');
+INSERT INTO `ck_oauth_access_tokens` VALUES ('dcd1ff0138d62cbfa42e495855e0154659e90286ca2efcb1c22304285755c2e6d356896a87cdffd1', '39', '6', null, '[\"*\"]', '0', '2017-06-29 17:51:46', '2017-06-29 17:51:46', '2018-06-29 17:51:46');
 
 -- ----------------------------
 -- Table structure for `ck_oauth_auth_codes`
@@ -346,14 +397,6 @@ CREATE TABLE `ck_oauth_auth_codes` (
 -- ----------------------------
 -- Records of ck_oauth_auth_codes
 -- ----------------------------
-INSERT INTO `ck_oauth_auth_codes` VALUES ('4afda2aebc0e4b98125b6fba78043e3cc46fb49ff5e049955d5dd0d4586a2b436d03552f1361988c', '2', '4', '[\"*\"]', '1', '2017-05-17 09:33:18');
-INSERT INTO `ck_oauth_auth_codes` VALUES ('5c8fceedb963fe54c929c7c78347b5ec01a90224af5dde21261c8031ed1c5a45ba0fbef84144861c', '2', '4', '[\"*\"]', '0', '2017-05-17 09:41:23');
-INSERT INTO `ck_oauth_auth_codes` VALUES ('63c20f60edb9273ef3639e42756a8abb37756715d6dec1f72d0955040350fd1079d680ae9b20054a', '2', '4', '[\"*\"]', '0', '2017-05-17 08:13:05');
-INSERT INTO `ck_oauth_auth_codes` VALUES ('a55618273f481e27c9538f7cb6822b9cd001fcf8bacac2f0b5ae427efea63c336a4a28e5f15d740d', '2', '4', '[\"*\"]', '1', '2017-05-17 09:31:45');
-INSERT INTO `ck_oauth_auth_codes` VALUES ('ecd31ebd45771f96a18921d9e88c6f58e26d4be42c333e8b186d71cb545bd2358b3c1f842265daf4', '2', '4', '[\"*\"]', '0', '2017-05-17 09:10:00');
-INSERT INTO `ck_oauth_auth_codes` VALUES ('f1e63e06443ac3aac597649d2534fa0114f0d7cb3d2ee7518ea6ff5e09c06cc379cc1fc1da5ec51c', '2', '4', '[\"*\"]', '0', '2017-05-17 09:14:45');
-INSERT INTO `ck_oauth_auth_codes` VALUES ('f6d44277eae4c7042f6a36a6af6d4ea8f2f0b96e857f0d7025092a679be9115da1b2777343e79b2c', '2', '4', '[\"*\"]', '1', '2017-05-17 09:36:00');
-INSERT INTO `ck_oauth_auth_codes` VALUES ('fb8360448fc6d84dec40f10ae0c54fa9af9b5c2c9db4fe7caf005bf389fddfd83ee60ad698dff90a', '2', '4', '[\"*\"]', '1', '2017-05-17 09:45:25');
 
 -- ----------------------------
 -- Table structure for `ck_oauth_clients`
@@ -392,12 +435,11 @@ CREATE TABLE `ck_oauth_personal_access_clients` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `oauth_personal_access_clients_client_id_index` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of ck_oauth_personal_access_clients
 -- ----------------------------
-INSERT INTO `ck_oauth_personal_access_clients` VALUES ('2', '5', '2017-05-17 08:31:57', '2017-05-17 08:31:57');
 
 -- ----------------------------
 -- Table structure for `ck_oauth_refresh_tokens`
@@ -415,13 +457,17 @@ CREATE TABLE `ck_oauth_refresh_tokens` (
 -- ----------------------------
 -- Records of ck_oauth_refresh_tokens
 -- ----------------------------
-INSERT INTO `ck_oauth_refresh_tokens` VALUES ('2181547da13edd5a19b90352d1b06d57487960f69a6c0be4a0ab34e1996abd23785fd7b26d42c07e', 'f86640d3c129d6f4dee38b0846c70d7d282be64f508b685559fd03eb521c5643473df73c2dd570bc', '1', '2018-05-17 09:26:43');
-INSERT INTO `ck_oauth_refresh_tokens` VALUES ('8257a36a6da88ca0269b6a2a2356fdaa8f20abfa33b9531d44a2955cbdd2b613a8f6e515bc300889', 'aaf7a0723bf902f4faaf0d1e539ab861ffa9c11c62cadfea9ef28c8d54713183cba827c816aacd2b', '0', '2018-05-17 10:09:08');
-INSERT INTO `ck_oauth_refresh_tokens` VALUES ('a5f7d3a014aefe60e3f4aab9afdd7a79eb09a9d19c44abad598dc2c548bff9e6062ac67166f0893a', 'c990536f469240ba2b7c61eafb06ec366757b1f5205b423670bb52212a9601ccb7c19a142de8c5ac', '0', '2018-05-17 11:12:13');
-INSERT INTO `ck_oauth_refresh_tokens` VALUES ('b1d52031b05018aea58069d3247b89039d8183c1f7e9f4ebcf1a0105cab46b6227824b34f1299678', 'c258c0efb874a7e9f95b75ab682a4aa73de440b53d320f9e7538bf939199149cdec604b4571a8af0', '0', '2018-05-17 09:37:54');
-INSERT INTO `ck_oauth_refresh_tokens` VALUES ('c07e8618834afec1c51262fd040abadd65e23474d6fb4ebfdb7e0503e7436792ac8e134efd8070a2', '553f1d938baa6d0a78b00cbc4c986936db094091d03c7227a0298c0b4f89495f8a08997fb2b75d86', '0', '2018-05-17 09:22:14');
-INSERT INTO `ck_oauth_refresh_tokens` VALUES ('cd29ed6360ee8d78977e887d8f06d8bdc5cd450dc51195824b345c25e26d81cd50377b899b06c677', '93a38fbf51fb680cd4946dc56bd34846f0201f0b4efb4bfa47f301b3fb940730a3295cc0561ad7b0', '0', '2018-05-17 09:24:02');
-INSERT INTO `ck_oauth_refresh_tokens` VALUES ('d8be326f4053d52d394ee763f9d94ac0e161075a646c2f1625a1ce76bef56c060813bae2a0e4a161', 'dabc4a0913a782aa61b828ebdb44af41d9a9ca23a69cffe75d3f4e316ef6a7f6d9e6734ae91b6f46', '0', '2018-05-17 11:12:48');
+INSERT INTO `ck_oauth_refresh_tokens` VALUES ('2310f29a37ccfbc421eef67fac3fd9516a4956c9096d1bd5750a7d2c690693bc8cc9d367b9ae4f2a', 'c6d74bccd10e47bdbe92286832ecf2e142c20ab2f2b2ce4590e3285946de449a8a012bc58bb57ca8', '0', '2018-07-04 19:04:49');
+INSERT INTO `ck_oauth_refresh_tokens` VALUES ('47b2fe37cbb2dfe2f0bfd12904f6c24d4c606b62fc5e08399974d83c6bd99f9b0dfab8074cfd9363', 'dcc30bb6f1410ab850a458e141e432dfacaada87ab216e6cb95d791a44d6617998af2069b41e6ae2', '0', '2018-06-29 17:48:47');
+INSERT INTO `ck_oauth_refresh_tokens` VALUES ('6e318fe24cfdb7751cc41af6bbfe3e112f2484c7da470fe855af0a19ecd648a962d19d91146793fa', '1b9060c7b3ae8b5082f8b25cd825f9644bfca20194740068e7cb2a80ef891a7d77cf457f7120f721', '0', '2018-06-29 16:49:39');
+INSERT INTO `ck_oauth_refresh_tokens` VALUES ('73981a649604eb4104fbe94c02d7ca6b8093cdf7300bccf8323122ff70b094db8f41233e91df3eab', '2c30232e2b041821f5c16b27b70c9fe2166b21a5d511069472bc22ec09eeacafd4dfb3a30c9ce3da', '0', '2018-06-29 17:50:25');
+INSERT INTO `ck_oauth_refresh_tokens` VALUES ('8a0d6d316059a9b343c21e4ef744b1a100a7e3b860e90d8e85e3f3fd6d273bf2f549f47b0f389575', 'd79bc294049abfed25f9680744ce2924c8de21e1ccb4a0900e5558ce5309cdd48f0c00e4b3ddb80a', '0', '2018-07-05 18:59:23');
+INSERT INTO `ck_oauth_refresh_tokens` VALUES ('8eba3eea37c9122604630b02a504118cdc8f15179066a6e5f8c25334ecaaaa278dcf4c8516e44c93', 'dcd1ff0138d62cbfa42e495855e0154659e90286ca2efcb1c22304285755c2e6d356896a87cdffd1', '0', '2018-06-29 17:51:46');
+INSERT INTO `ck_oauth_refresh_tokens` VALUES ('a492e219c7d6a48e84f4eca5b89bca2e7f65649ac3e71e7fb986494587caa495c726d823c57dad63', '5b8b7cd10bbcabc39bf8570e641967840cf51279323d630ef70a9e59135b8c9b06c2970fbc87c0c6', '0', '2018-07-05 18:44:19');
+INSERT INTO `ck_oauth_refresh_tokens` VALUES ('c57ee5c6db6250e89ca09aace7eb59de9435ad56e6f82c7cce344610ead68ed65308c6a4bd133e1a', 'b67fffe39eb81d2ec7a376db0d2abcb94c5b57b0d5655dba87d1eca4f79430dc9065675ed16fca3c', '0', '2018-06-29 17:28:01');
+INSERT INTO `ck_oauth_refresh_tokens` VALUES ('d52a245885fb43ce26c638d869006113c2cf580b27436f28cda8f774d7a80043ca038bde403ca344', '3cefa0123cda06774052e8cc808f18d7c4125a7e47c3ec789fd22e70f7a2c8f2541142371758f704', '0', '2018-07-04 19:00:00');
+INSERT INTO `ck_oauth_refresh_tokens` VALUES ('edbacecbd916881cdcb88dcdda64c8f00ee963c7e332d4ca701df4e0a7a9e2585d5ac610a3b60378', '8e75da811d83f7310efc002fe828b300c995bf86a50368f14578ce6b80649131d09cedf72b854561', '0', '2018-06-29 17:29:02');
+INSERT INTO `ck_oauth_refresh_tokens` VALUES ('fcf6f92efcf52a15671a309f69ea605adee0a4e52c3738a77f9199cf09d17298a410f8c467ff5c67', 'b13a59ec692eae1d31c52460334a54ff1a659a6644f4c140691d81718ea9b3ecb0aef0a3c766f0c2', '0', '2018-06-29 17:26:46');
 
 -- ----------------------------
 -- Table structure for `ck_pages`
@@ -657,26 +703,13 @@ CREATE TABLE `ck_sms` (
   KEY `user_id` (`user_id`),
   KEY `type` (`type`),
   KEY `phone` (`phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ck_sms
 -- ----------------------------
 INSERT INTO `ck_sms` VALUES ('1', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:7894，请及时输入，工作人员不会向您索取，请勿泄露。', '7894', '0', null, '2017-06-12 09:00:56', '2017-06-12 09:00:56');
-INSERT INTO `ck_sms` VALUES ('2', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:4873，请及时输入，工作人员不会向您索取，请勿泄露。', '4873', '0', null, '2017-06-12 09:04:37', '2017-06-12 09:04:37');
-INSERT INTO `ck_sms` VALUES ('3', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:6488，请及时输入，工作人员不会向您索取，请勿泄露。', '6488', '0', null, '2017-06-12 09:04:45', '2017-06-12 09:04:45');
-INSERT INTO `ck_sms` VALUES ('4', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:3356，请及时输入，工作人员不会向您索取，请勿泄露。', '3356', '0', null, '2017-06-12 17:16:55', '2017-06-12 17:16:55');
-INSERT INTO `ck_sms` VALUES ('5', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:9262，请及时输入，工作人员不会向您索取，请勿泄露。', '9262', '0', null, '2017-06-12 17:18:13', '2017-06-12 17:18:13');
-INSERT INTO `ck_sms` VALUES ('6', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:9803，请及时输入，工作人员不会向您索取，请勿泄露。', '9803', '0', null, '2017-06-12 17:21:41', '2017-06-12 17:21:41');
-INSERT INTO `ck_sms` VALUES ('7', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:5441，请及时输入，工作人员不会向您索取，请勿泄露。', '5441', '0', null, '2017-06-12 17:23:04', '2017-06-12 17:23:04');
-INSERT INTO `ck_sms` VALUES ('8', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:7977，请及时输入，工作人员不会向您索取，请勿泄露。', '7977', '0', null, '2017-06-12 17:24:40', '2017-06-12 17:24:40');
-INSERT INTO `ck_sms` VALUES ('9', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:6099，请及时输入，工作人员不会向您索取，请勿泄露。', '6099', '0', null, '2017-06-13 08:54:04', '2017-06-13 08:54:04');
-INSERT INTO `ck_sms` VALUES ('10', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:9995，请及时输入，工作人员不会向您索取，请勿泄露。', '9995', '0', null, '2017-06-13 08:55:39', '2017-06-13 08:55:39');
-INSERT INTO `ck_sms` VALUES ('11', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:4746，请及时输入，工作人员不会向您索取，请勿泄露。', '4746', '0', null, '2017-06-13 08:56:42', '2017-06-13 08:56:42');
-INSERT INTO `ck_sms` VALUES ('12', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:6389，请及时输入，工作人员不会向您索取，请勿泄露。', '6389', '0', null, '2017-06-13 08:57:43', '2017-06-13 08:57:43');
-INSERT INTO `ck_sms` VALUES ('13', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:5463，请及时输入，工作人员不会向您索取，请勿泄露。', '5463', '0', null, '2017-06-13 08:59:45', '2017-06-13 08:59:45');
-INSERT INTO `ck_sms` VALUES ('14', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:7301，请及时输入，工作人员不会向您索取，请勿泄露。', '7301', '0', null, '2017-06-13 09:03:23', '2017-06-13 09:03:23');
-INSERT INTO `ck_sms` VALUES ('15', '0', 'register', '13688045082', '尊敬的用户：您在置上金融网站上的验证码是:8423，请及时输入，工作人员不会向您索取，请勿泄露。', '8423', '0', null, '2017-06-15 14:18:32', '2017-06-15 14:18:32');
+INSERT INTO `ck_sms` VALUES ('28', '0', 'register', '13689050228', '尊敬的用户：您在置上金融网站上的验证码是:2590，请及时输入，工作人员不会向您索取，请勿泄露。', '2590', '0', null, '2017-06-29 16:40:49', '2017-06-29 16:40:49');
 
 -- ----------------------------
 -- Table structure for `ck_translations`
@@ -716,22 +749,10 @@ CREATE TABLE `ck_users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of ck_users
 -- ----------------------------
-INSERT INTO `ck_users` VALUES ('2', '1', 'yiuked', '', 'yiuked@vip.qq.com', 'users/May2017/jNX6yHBJvLSDPmztqj9k.jpg', '$2y$10$medyLF27EMY4G1wrLHNFdud696o9MAwUEDaaflMeIjeEnndxtuRUy', null, '2017-05-17 07:58:20', '2017-05-18 11:37:56');
-INSERT INTO `ck_users` VALUES ('3', '2', 'yiuked', '', 'yiukeds@vip.qq.com', 'users/default.png', '$2y$10$1z8KdeeVTz9n9aqTqDLswOGhFAfEd7ujx7dREkOnC/Y6yU5k3J2ii', null, '2017-05-22 12:10:08', '2017-05-22 12:10:08');
-INSERT INTO `ck_users` VALUES ('4', '2', 'yiuked', '', 'yiukedF@vip.qq.com', 'users/default.png', '$2y$10$rQKh.vOP08o9wFDmL2ZtOeVHl7rbgJDjczes5UZOJegejc.cTelNK', null, '2017-05-22 12:10:45', '2017-05-22 12:10:45');
-INSERT INTO `ck_users` VALUES ('5', '2', 'yiuked', '', 'yiukedB@vip.qq.com', 'users/default.png', '$2y$10$NG6dY5yHjWdYs9VDkBee/eAFNeVhAJ0soqN/yWVeNxqet/on1tY8i', null, '2017-05-22 12:11:55', '2017-05-22 12:11:55');
-INSERT INTO `ck_users` VALUES ('6', '2', 'yiuked', '', 'yiukedC@vip.qq.com', 'users/default.png', '$2y$10$U3woaNVXm8OhgdPzjN1GlOtsNtWQTjbpUUmnmOyVzRY0FxJ1qCxMy', null, '2017-05-22 12:12:37', '2017-05-22 12:12:37');
-INSERT INTO `ck_users` VALUES ('7', '2', 'yiuked', '', 'yiukedD@vip.qq.com', 'users/default.png', '$2y$10$mplU5U3dUFReOqgUGJRXCuoIkPLLBRevTtRIghq7V0O3GSPxJU1l.', null, '2017-05-22 12:13:25', '2017-05-22 12:13:25');
-INSERT INTO `ck_users` VALUES ('8', '2', 'yiuked', '', 'yiukedE@vip.qq.com', 'users/default.png', '$2y$10$upBdhusRE.jFrmojG1s.QO6MKoDWS7rhMHoPKl.9XAnEGEiJAaW6u', null, '2017-05-22 12:23:01', '2017-05-22 12:23:01');
-INSERT INTO `ck_users` VALUES ('9', '2', 'yiuked', '', 'yiukedG@vip.qq.com', 'users/default.png', '$2y$10$Kfu4NI55mUmsjnTumofQkelWEQOPpU4IEyexSQcS2cBNj4jA6obVG', null, '2017-05-22 12:25:24', '2017-05-22 12:25:24');
-INSERT INTO `ck_users` VALUES ('10', '2', '13688045082', '13688045080', null, 'users/default.png', '$2y$10$Ch7oG5EfFFOwcqThZZsfZ.RyO2n/LuSMWdjmA1NZ7RnmHNM0iZiPO', null, '2017-06-12 17:53:14', '2017-06-12 17:53:14');
-INSERT INTO `ck_users` VALUES ('11', '2', '13688045082', '13688045082', null, 'users/default.png', '$2y$10$9kII9fqSk0GDSfpW9eha5.3PVPFgizMVSmupFbplUF74ydNGAX3gG', null, '2017-06-13 09:05:43', '2017-06-13 09:05:43');
-INSERT INTO `ck_users` VALUES ('12', '2', '13688045083', '13688045083', null, 'users/default.png', '$2y$10$DuWqkrvp4Cq4hIaywJsk1OsY9F3bcVsoU7LhwB9ghn4xkTYIL78pq', null, '2017-06-14 18:15:35', '2017-06-14 18:15:35');
-INSERT INTO `ck_users` VALUES ('13', '2', '13688045084', '13688045084', null, 'users/default.png', '$2y$10$beGiIevPHNaA8AnEAnFDF.esCKTgH8.E9SsD1Hx/K1eb7S0uZmmwy', null, '2017-06-14 18:17:47', '2017-06-14 18:17:47');
-INSERT INTO `ck_users` VALUES ('14', '2', '13688045085', '13688045085', null, 'users/default.png', '$2y$10$gSZIqXLFWjhzGSnHD0zv3.4ESHvvUHN/b3LZlfbbKfHIRY9dRM9a.', null, '2017-06-14 18:20:24', '2017-06-14 18:20:24');
-INSERT INTO `ck_users` VALUES ('15', '2', '13688045087', '13688045087', null, 'users/default.png', '$2y$10$L4EU7F7T11jg70meToBdjeex7fbOp6o9wAKVjlzPd0VD9UFtzzInq', null, '2017-06-14 18:21:12', '2017-06-14 18:21:12');
+INSERT INTO `ck_users` VALUES ('38', '1', '13688045082', '13688045082', '13688045082', 'users/September2017/VhhIqWLeCx15j5ajGF4f.jpg', '$2y$10$ecTnyXPtXrHNh58m0foN3OUzz7mPcva0wRL6xxvUVTlosJCKIjuR2', null, '2017-06-29 16:39:06', '2017-09-07 15:51:05');
+INSERT INTO `ck_users` VALUES ('39', '2', '13689050228', '13689050228', null, 'users/June2017/yko1KeIVMWRaQ1Woxb3v.jpg', '$2y$10$IhiC7W3kZTARMhoCOuRGPuJrC8JCO/LEJZgROE/Goh4wkbiGu67uW', null, '2017-06-29 16:40:59', '2017-06-30 09:58:16');

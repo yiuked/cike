@@ -46,7 +46,7 @@ class MessageController extends Controller
             $errors = $validator->errors();
             return response()->json(['status' => 'FAIL', 'errorCode' => 100001, 'errorMessage' => $errors->first()]);
         }
-        $unique_id = md5($request->input('uid') . strtotime('YmdHi'));
+        $unique_id = md5($request->input('uid') . date('Ymdhis'));
 
         $count = Message::where('unique_id', $unique_id)->count();
         if ($count > 0) {
@@ -54,6 +54,10 @@ class MessageController extends Controller
         }
         $guest = Guest::where('uid', $request->input('uid'))->first();
         if ($guest) {
+            $uploadedFiles = $request->allFiles();
+            foreach ($uploadedFiles['file'] as $uploadedFile) {
+                $uploadedFile->store('message');
+            }
             $message = new Message();
             $message->message = $request->input('message');
             $message->unique_id = $unique_id;

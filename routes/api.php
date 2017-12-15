@@ -12,8 +12,8 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::prefix('v1')->namespace('Api\V1')->group(function () {
-    Route::get('guest/init/{uid}', 'GuestController@init');
+Route::group(['namespace' => 'Api\V1'], function(){
+    Route::post('guest/init', 'GuestController@init');
     Route::get('message/range', 'MessageController@range');
     Route::get('message/history', 'MessageController@history');
     Route::post('message/add', 'MessageController@add');

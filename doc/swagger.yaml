@@ -1,0 +1,219 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: 此刻API接口文档 
+  description: 此刻API接口文档 
+  version: "1.0.0"
+# the domain of the service
+host: changmi.net:8000
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /api
+produces:
+  - application/json
+paths:
+  /guest/init:
+    post:
+      summary: 通过UID初始化一个客户端
+      description:  用户通过手机端的`UID`进来账户初始化
+      parameters:
+        - name: uid
+          in: formData
+          description: 用户通过手机端的UID进来账户初始化.
+          required: true
+          type: string
+      responses:
+        200:
+          description: 通过UID初始化用户处理结果，通过`status`来判断是否成功。
+          schema:
+            type: object
+            properties:
+              guest_id:
+                type: number
+                description: 新增用户的`guest_id`值
+              status:
+                type: string
+                description: 处理结果的状态信息
+              code:
+                type: number
+                description: 处理结果状态码
+              msg:
+                type: string
+                description: 处理结果信息描述
+        default:
+          description: 请求失败
+          schema:
+            $ref: '#/definitions/Error'
+  /message/range:
+    get:
+      summary: 获取随机的一条信息
+      description:  获取随机的一条信息
+      responses:
+        200:
+          description: 通过此接口获取当前被推送到所有人首页的信息。
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: 请求处理状态
+              code:
+                type: number
+                description: 状态码
+              msg:
+                type: string
+                description: 交易结果描述
+              object:
+                $ref: '#/definitions/Message'
+        default:
+          description: 请求失败
+          schema:
+            $ref: '#/definitions/Error'
+  /message/histroy:
+    get:
+      summary: 获取历史推荐信息
+      description:  如果需要展示历史推荐信息，可以通过此接口中获取
+      parameters:
+        - name: offset
+          in: query
+          type: integer
+          format: int32
+          description: 获取数据的偏移量，默认是为0.
+        - name: limit
+          in: query
+          type: integer
+          format: int32
+          description: 每次获取数据的条数，最小值为5，最大值为100.
+      responses:
+        200:
+          description: 通过此接口获取当前被推送到所有人首页的信息。
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: 请求处理状态
+              code:
+                type: number
+                description: 状态码
+              msg:
+                type: string
+                description: 交易结果描述
+              object:
+                type: object
+                properties:
+                  current_page:
+                    type: number
+                    description: 当前第N页
+                  from:
+                    type: number
+                    description: 首页
+                  last_page:
+                    type: number
+                    description: 最后一页
+                  next_page_url:
+                    type: string
+                    description: 下一页URL地址
+                  path:
+                    type: string
+                    description: 请求页路径
+                  per_page:
+                    type: number
+                    description: 每页记录数
+                  prev_page_url:
+                    type: string
+                    description: 上一页URL地址
+                  to:
+                    type: number
+                    description: 我也不知道这是什么
+                  total:
+                    type: number
+                    description: 总记录数
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/Message'
+        default:
+          description: 请求失败
+          schema:
+            $ref: '#/definitions/Error'
+  /message/add:
+    post:
+      summary: 添加一条信息
+      description: 用户通过客户端新增加一条消息
+      parameters:
+        - name: uid
+          in: formData
+          description: 客户端`UID`
+          required: true
+          type: string
+        - name: message
+          in: formData
+          required: true
+          description: 消息内容
+          type: string
+      responses:
+        200:
+          description: 通过`status`来判断是否成功
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: 请求处理状态
+              code:
+                type: number
+                description: 处理状态码
+              msg:
+                type: string
+                description: 处理结果描述
+        default:
+          description: 请求异常
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Message:
+    type: object
+    properties:
+      guest_id:
+        type: number
+        description: 用户ID
+      unique_id:
+        type: string
+        description: 用于标识当前信息的惟一ID号
+      message:
+        type: string
+        description: 消息内容
+      images:
+        type: string
+        description: 所引用的图片地址
+      has_active:
+        type: boolean
+        description: 是否为推荐信息
+      created_at:
+        type: string
+        description: 消息创建时间
+        format: dateTime
+      updated_at:
+        type: string
+        description: 消息创建时间
+        format: dateTime
+      status: 
+        type: string
+        description: 状态
+      errorMessage:
+        type: string
+        description: 错误信息，仅当请求处理失败时返回。
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string

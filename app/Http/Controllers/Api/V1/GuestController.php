@@ -9,18 +9,19 @@ use Illuminate\Support\Facades\Validator;
 
 class GuestController extends Controller
 {
-    public function init($uid)
+    public function init(Request $request)
     {
+        $uid = $request->input('uid');
         $validator = Validator::make(['uid' => $uid], [
             'uid' => 'required|unique:guest_users|min:12|max:128',
         ]);
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return response()->json(['status' => 'FAIL', 'errorCode' => 100001, 'errorMessage' => $errors->first('uid')]);
+            return response()->json(['status' => 'FAIL', 'errorCode' => 100001, 'msg' => $errors->first('uid')]);
         }
         if ($guest = Guest::generate($uid)) {
             return response()->json(['status' => 'SUCCESS', 'guest_id' => $guest->id]);
         }
-        return response()->json(['status' => 'FAIL', 'errorCode' => 100005, 'errorMessage' => "unknown error!"]);
+        return response()->json(['status' => 'FAIL', 'errorCode' => 100005, 'msg' => "unknown error!"]);
     }
 }
