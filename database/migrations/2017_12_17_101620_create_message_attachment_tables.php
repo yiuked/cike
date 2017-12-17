@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMessagesTable extends Migration
+class CreateMessageAttachmentTables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('message_attachments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('guest_id');
-            $table->string('unique_id')->unique();
-            $table->text('message');
-            $table->boolean('has_active');
+            $table->integer('message_id');
+            $table->string('mime_type');
+            $table->string('path');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('message_attachments');
     }
 }

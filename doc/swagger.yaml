@@ -1,16 +1,11 @@
-# this is an example of the Uber API
-# as a demonstration of an API spec in YAML
 swagger: '2.0'
 info:
-  title: 此刻API接口文档 
-  description: 此刻API接口文档 
-  version: "1.0.0"
-# the domain of the service
-host: changmi.net:8000
-# array of all schemes that your API supports
+  title: 此刻API接口文档
+  description: 此刻API接口文档
+  version: 1.0.0
+host: 'changmi.net:8000'
 schemes:
   - http
-# will be prefixed to all paths
 basePath: /api
 produces:
   - application/json
@@ -18,7 +13,9 @@ paths:
   /guest/init:
     post:
       summary: 通过UID初始化一个客户端
-      description:  用户通过手机端的`UID`进来账户初始化
+      description: 用户通过手机端的`UID`进来账户初始化
+      consumes:
+        - multipart/form-data
       parameters:
         - name: uid
           in: formData
@@ -26,7 +23,7 @@ paths:
           required: true
           type: string
       responses:
-        200:
+        '200':
           description: 通过UID初始化用户处理结果，通过`status`来判断是否成功。
           schema:
             type: object
@@ -50,9 +47,9 @@ paths:
   /message/range:
     get:
       summary: 获取随机的一条信息
-      description:  获取随机的一条信息
+      description: 获取随机的一条信息
       responses:
-        200:
+        '200':
           description: 通过此接口获取当前被推送到所有人首页的信息。
           schema:
             type: object
@@ -75,7 +72,7 @@ paths:
   /message/histroy:
     get:
       summary: 获取历史推荐信息
-      description:  如果需要展示历史推荐信息，可以通过此接口中获取
+      description: 如果需要展示历史推荐信息，可以通过此接口中获取
       parameters:
         - name: offset
           in: query
@@ -88,7 +85,7 @@ paths:
           format: int32
           description: 每次获取数据的条数，最小值为5，最大值为100.
       responses:
-        200:
+        '200':
           description: 通过此接口获取当前被推送到所有人首页的信息。
           schema:
             type: object
@@ -144,6 +141,8 @@ paths:
     post:
       summary: 添加一条信息
       description: 用户通过客户端新增加一条消息
+      consumes:
+        - multipart/form-data
       parameters:
         - name: uid
           in: formData
@@ -155,8 +154,12 @@ paths:
           required: true
           description: 消息内容
           type: string
+        - name: file
+          in: formData
+          description: 需要上传的文件
+          type: file
       responses:
-        200:
+        '200':
           description: 通过`status`来判断是否成功
           schema:
             type: object
@@ -178,6 +181,9 @@ definitions:
   Message:
     type: object
     properties:
+      id:
+        type: number
+        description: 标识ID
       guest_id:
         type: number
         description: 用户ID
@@ -201,12 +207,36 @@ definitions:
         type: string
         description: 消息创建时间
         format: dateTime
-      status: 
+      status:
         type: string
         description: 状态
-      errorMessage:
+      attachments:
+        type: array
+        items:
+          $ref: '#/definitions/Attachment'
+  Attachment:
+    type: object
+    properties:
+      id:
+        type: number
+        description: 标识ID
+      message_id:
+        type: number
+        description: 信息ID
+      mime_type:
         type: string
-        description: 错误信息，仅当请求处理失败时返回。
+        description: mime类型
+      path:
+        type: string
+        description: 路径
+      created_at:
+        type: string
+        description: 消息创建时间
+        format: dateTime
+      updated_at:
+        type: string
+        description: 消息创建时间
+        format: dateTime
   Error:
     type: object
     properties:
